@@ -31,7 +31,11 @@ class DailyWriter(Writer):
 
     def _format_line(self, entry: Entry) -> str:
         """Format a transcription entry."""
-        return f"[{entry.timestamp.isoformat(timespec='minutes', sep=' ')}]\t{entry.content}\n"
+        return '\t'.join([
+            f'[{entry.timestamp.isoformat(timespec="minutes", sep=" ")}]',
+            entry.project, 
+            entry.content
+        ]) + '\n'
 
     def _get_file_path(self, entry: Entry) -> str:
         """Get the full file path for the transcription file."""

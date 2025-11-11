@@ -1,10 +1,10 @@
-from transcriptors.file_transcriptors import DailyFileTranscriptor
+from brain import Brain
 from console import Interpreter
 
-WORKSPACE_DIR = "/home/martin/dev/sandbox/tidy_brain"
+CONFIG_FILE = "/home/martin/dev/sandbox/tidy_brain/brain.json"
 
-daily = DailyFileTranscriptor(WORKSPACE_DIR)
+brain = Brain()
+brain.load(CONFIG_FILE)
 
-interpreter = Interpreter()
-interpreter.add_transcriptor(daily)
+interpreter = Interpreter(brain)
 interpreter.run()

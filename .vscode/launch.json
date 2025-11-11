@@ -4,14 +4,12 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
         {
-            "name": "Python Debugger: Current File with Arguments",
+            "name": "Python Debugger: Module",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/src/tidy_brain/__main__.py",
-            "console": "integratedTerminal",
-            "args": "${command:pickArgs}"
+            "module": "tidybrain",
+            "cwd": "${workspaceFolder}/src"
         }
     ]
 }

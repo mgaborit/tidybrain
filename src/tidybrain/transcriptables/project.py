@@ -1,11 +1,12 @@
-from transcription import ContextKeys, Entry, Transcriptable
+"""Module for project transcriptables in Tidy Brain application."""
+from ..transcription import ContextKeys, Entry, Transcriptable
 
 class Project(Transcriptable):
     """Represents a project."""
     def __init__(self, name: str):
         super().__init__()
         self.name = name
-        self.sections = {}
+        self.sections: dict[str, Section] = {}
 
     def accept(self, entry: Entry) -> None:
         if entry.context \

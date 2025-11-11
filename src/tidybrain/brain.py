@@ -1,17 +1,20 @@
+"""Module for managing the workspace in Tidy Brain application."""
 from datetime import date
-import json, os
+import json
+import os
 
-from transcriptables import Daily, Project, Section
-from transcriptors.file import FileTranscriptor
+from .transcription import Entry
+from .transcriptables import Daily, Project, Section
+from .transcriptors.file import FileTranscriptor
 
 class Brain:
     """Represents a workspace for managing projects and their transcriptions."""
 
     def __init__(self):
         self.daily = Daily(date.today())
-        self.projects = {}
+        self.projects: dict[str, Project] = {}
 
-    def process(self, entry) -> None:
+    def process(self, entry: Entry) -> None:
         """Process a transcription entry."""
         self.daily.accept(entry)
         for project in self.projects.values():
@@ -23,7 +26,12 @@ class Brain:
 
         configuration = json.load(open(config_file, 'r', encoding='utf-8'))
         daily_dir = os.path.join(workspace_dir, configuration.get('daily_dir', 'daily'))
-        self.daily.register(FileTranscriptor(os.path.join(daily_dir, f'{self.daily.date.isoformat()}.txt')))
+        self.daily.register(
+            FileTranscriptor(
+                os.path.join(
+                    daily_dir,
+                    f'{self.daily.date.isoformat()}.txt'
+                )))
 
         projects_dir = os.path.join(workspace_dir, configuration.get('projects_dir', 'projects'))
         for project_config in configuration.get('projects', []):
@@ -32,8 +40,8 @@ class Brain:
             project.register(
                 FileTranscriptor(
                     os.path.join(
-                        projects_dir, 
-                        project_path, 
+                        projects_dir,
+                        project_path,
                         project_config.get('filename', 'project.txt')
                     )))
             self.projects[project.name] = project
@@ -43,8 +51,8 @@ class Brain:
                 section.register(
                     FileTranscriptor(
                         os.path.join(
-                            projects_dir, 
-                            project_path, 
+                            projects_dir,
+                            project_path,
                             section_config.get('filename', f'{section.name}.txt')
                         )))
                 project.sections[section.name] = section

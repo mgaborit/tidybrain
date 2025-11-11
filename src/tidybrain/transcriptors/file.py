@@ -1,6 +1,7 @@
+"""File-based transcription handlers for Tidy Brain application."""
 import os
 
-from transcription import Entry, Transcriptor
+from ..transcription import Entry, Transcriptor
 
 class FileTranscriptor(Transcriptor):
     """Base class for file-based transcription handlers."""

@@ -24,7 +24,9 @@ class Brain:
         """Load workspace configuration."""
         workspace_dir = os.path.dirname(config_file)
 
-        configuration = json.load(open(config_file, 'r', encoding='utf-8'))
+        with open(config_file, 'r', encoding='utf-8') as file:
+            configuration = json.load(file)
+
         daily_dir = os.path.join(workspace_dir, configuration.get('daily_dir', 'daily'))
         self.daily.register(
             FileTranscriptor(

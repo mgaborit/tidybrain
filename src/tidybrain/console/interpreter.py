@@ -150,7 +150,7 @@ class Completer:
                         text,
                         state,
                         self.projects)
-                
+
                 if len(tokens) == 2 and text == tokens[1]:
                     # project command + 2 tokens + current scope is equal to second token
                     # = project/section argument

@@ -1,0 +1,37 @@
+{
+    "daily_dir": "daily",
+    "projects_dir": "projects",
+    "projects": [
+        {
+            "name": "project1",
+            "filename": "project1.txt",
+            "path": "project1",
+            "sections": [
+                {
+                    "name": "section11",
+                    "filename": "section11.txt"
+                },
+                {
+                    "name": "section12",
+                    "filename": "section12.txt"
+                }
+            ]
+        },
+        {
+            "name": "project2",
+            "path": "proj/ect2",
+            "sections": [
+                {
+                    "name": "section21",
+                    "filename": "section21.txt"
+                },
+                {
+                    "name": "section22"
+                },
+                {
+                    "name": "section23"
+                }
+            ]
+        }
+    ]
+}

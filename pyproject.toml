@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tidybrain"
-version = "0.0.2"
+version = "0.0.3"
 authors = [{ name = "Martin GABORIT", email = "mgaborit.dev@gmail.com" }]
 description = "Little tool to facilitate taking and processing notes"
 readme = "README.md"

@@ -114,6 +114,8 @@ To add a transcription entry, simply type it and press Enter."""
             section_name = self.context.get(ContextKeys.SECTION)
             if section_name:
                 prompt += f"/{section_name}"
+        if len(prompt) > 0:
+            prompt += " "
         prompt += "> "
         return prompt
 
@@ -141,27 +143,32 @@ class Completer:
                     self.commands,
                     COMMAND_PREFIX)
 
-            if tokens[0] in [f'{COMMAND_PREFIX}project', f'{COMMAND_PREFIX}p'] \
-                and len(tokens) == 2 \
-                and text == tokens[1]:
-                # project command + 2 tokens + current scope is equal to second token
-                # = project/section argument
-                project_section = text.split('/', 1)
-                if len(project_section) == 1:
-                    # if on project part
+            if tokens[0] in [f'{COMMAND_PREFIX}project', f'{COMMAND_PREFIX}p']:
+                if len(tokens) == 1:
+                    # project command + 1 token
                     return self._complete_from_elements(
-                        project_section[0],
+                        text,
                         state,
                         self.projects)
-
-                if len(project_section) == 2:
-                    if project_section[0] in self.projects:
-                        # if project part matches an existing project and on section part
+                elif len(tokens) == 2 and text == tokens[1]:
+                    # project command + 2 tokens + current scope is equal to second token
+                    # = project/section argument
+                    project_section = text.split('/', 1)
+                    if len(project_section) == 1:
+                        # if on project part
                         return self._complete_from_elements(
-                            project_section[1],
+                            project_section[0],
                             state,
-                            self.sections[project_section[0]],
-                            f'{project_section[0]}/')
+                            self.projects)
+
+                    if len(project_section) == 2:
+                        if project_section[0] in self.projects:
+                            # if project part matches an existing project and on section part
+                            return self._complete_from_elements(
+                                project_section[1],
+                                state,
+                                self.sections[project_section[0]],
+                                f'{project_section[0]}/')
         return None
 
     def _complete_from_elements(

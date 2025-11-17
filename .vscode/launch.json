@@ -9,7 +9,10 @@
             "type": "debugpy",
             "request": "launch",
             "module": "tidybrain",
-            "cwd": "${workspaceFolder}/src"
+            "cwd": "${workspaceFolder}/src",
+            "env": {
+                "TB_HOME": "/home/martin/dev/sandbox/tidybrain"
+            }
         }
     ]
 }

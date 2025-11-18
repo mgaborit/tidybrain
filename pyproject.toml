@@ -3,6 +3,7 @@ requires = ["hatchling >= 1.26"]
 build-backend = "hatchling.build"
 
 [project]
+dependencies = ["pyreadline3; os_name == 'nt'"]
 name = "tidybrain"
 version = "0.0.4"
 authors = [{ name = "Martin GABORIT", email = "mgaborit.dev@gmail.com" }]

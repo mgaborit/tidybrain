@@ -1,6 +1,4 @@
 {
-    "daily_dir": "daily",
-    "projects_dir": "projects",
     "projects": [
         {
             "name": "project1",
@@ -33,5 +31,17 @@
                 }
             ]
         }
-    ]
+    ],
+    "tags": [
+        {
+            "name": "hot",
+            "filename": "hot_topics.txt"
+        },
+        {
+            "name": "cta"
+        }
+    ],
+    "daily_dir": "daily",
+    "projects_dir": "projects",
+    "tags_dir": "tags"
 }

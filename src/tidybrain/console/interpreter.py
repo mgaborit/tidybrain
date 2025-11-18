@@ -4,6 +4,7 @@ import sys
 
 from ..brain import Brain
 from ..transcription import ContextKeys, Entry
+from ..transcriptables.tag import TAG_PREFIX
 
 COMMAND_PREFIX = '\\'
 
@@ -124,10 +125,15 @@ class Completer:
     def __init__(self, commands: list[str], brain: Brain):
         self.commands: list[str] = commands
         self.projects: list[str] = list(brain.projects.keys())
+        self.projects.sort()
         self.sections: dict[str, list[str]] = {
             project_name: list(project.sections.keys())
             for project_name, project in brain.projects.items()
         }
+        for sections in self.sections.values():
+            sections.sort()
+        self.tags: list[str] = [tag.name for tag in brain.tags.values()]
+        self.tags.sort()
 
     def complete(self, text: str, state: int) -> str | None:
         """Autocomplete command input."""
@@ -170,6 +176,15 @@ class Completer:
                                 state,
                                 self.sections[project_section[0]],
                                 f'{project_section[0]}/')
+
+        elif text.startswith(TAG_PREFIX):
+            # User is typing a tag
+            return self._complete_from_elements(
+                text[len(TAG_PREFIX):],
+                state,
+                self.tags,
+                TAG_PREFIX)
+
         return None
 
     def _complete_from_elements(

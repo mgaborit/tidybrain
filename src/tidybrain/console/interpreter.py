@@ -143,42 +143,7 @@ class Completer:
         current_input = readline.get_line_buffer()
         if current_input.startswith(COMMAND_PREFIX):
             # User is typing a command
-            tokens = current_input.split()
-            if len(tokens) == 1 and text != '':
-                # 1 token + non-empty current scope = current scope is on command
-                return self._complete_from_elements(
-                    '' if text == COMMAND_PREFIX else text[1:],
-                    state,
-                    self.commands,
-                    COMMAND_PREFIX)
-
-            if tokens[0] in [f'{COMMAND_PREFIX}project', f'{COMMAND_PREFIX}p']:
-                if len(tokens) == 1:
-                    # project command + 1 token
-                    return self._complete_from_elements(
-                        text,
-                        state,
-                        self.projects)
-
-                if len(tokens) == 2 and text == tokens[1]:
-                    # project command + 2 tokens + current scope is equal to second token
-                    # = project/section argument
-                    project_section = text.split('/', 1)
-                    if len(project_section) == 1:
-                        # if on project part
-                        return self._complete_from_elements(
-                            project_section[0],
-                            state,
-                            self.projects)
-
-                    if len(project_section) == 2:
-                        if project_section[0] in self.projects:
-                            # if project part matches an existing project and on section part
-                            return self._complete_from_elements(
-                                project_section[1],
-                                state,
-                                self.sections[project_section[0]],
-                                f'{project_section[0]}/')
+            return self._complete_command(text, state, current_input)
 
         elif text.startswith(TAG_PREFIX):
             # User is typing a tag related entry
@@ -195,6 +160,50 @@ class Completer:
                 state,
                 self.persons,
                 PERSON_PREFIX)
+
+        return None
+
+    def _complete_command(
+            self,
+            text: str,
+            state: int,
+            current_input: str) -> str | None:
+        tokens = current_input.strip().split()
+        if len(tokens) == 1 and text != '':
+            # 1 token + non-empty current scope = current scope is on command
+            return self._complete_from_elements(
+                '' if text == COMMAND_PREFIX else text[1:],
+                state,
+                self.commands,
+                COMMAND_PREFIX)
+
+        if tokens[0] in [f'{COMMAND_PREFIX}project', f'{COMMAND_PREFIX}p']:
+            if len(tokens) == 1:
+                # project command + 1 token
+                return self._complete_from_elements(
+                    text,
+                    state,
+                    self.projects)
+
+            if len(tokens) == 2 and text == tokens[1]:
+                # project command + 2 tokens + current scope is equal to second token
+                # = project/section argument
+                project_section = text.split('/', 1)
+                if len(project_section) == 1:
+                    # if on project part
+                    return self._complete_from_elements(
+                        project_section[0],
+                        state,
+                        self.projects)
+
+                if len(project_section) == 2:
+                    if project_section[0] in self.projects:
+                        # if project part matches an existing project and on section part
+                        return self._complete_from_elements(
+                            project_section[1],
+                            state,
+                            self.sections[project_section[0]],
+                            f'{project_section[0]}/')
 
         return None
 

@@ -2,6 +2,7 @@
 from datetime import date
 import json
 import os
+from typing import Any
 
 from .transcription import Entry
 from .transcriptables import Daily, Person, Project, Section, Tag
@@ -33,6 +34,11 @@ class Brain:
         with open(config_file, 'r', encoding='utf-8') as file:
             configuration = json.load(file)
 
+        self._load_projects(configuration, workspace_dir)
+        self._load_tags(configuration, workspace_dir)
+        self._load_persons(configuration, workspace_dir)
+
+    def _load_projects(self, configuration: Any, workspace_dir: str) -> None:
         daily_dir = os.path.join(workspace_dir, configuration.get('daily_dir', 'daily'))
         self.daily.register(
             FileTranscriptor(
@@ -65,6 +71,7 @@ class Brain:
                         )))
                 project.sections[section.name] = section
 
+    def _load_tags(self, configuration: Any, workspace_dir: str) -> None:
         tags_dir = os.path.join(workspace_dir, configuration.get('tags_dir', 'tags'))
         for tag_config in configuration.get('tags', []):
             tag = Tag(tag_config['name'])
@@ -76,6 +83,7 @@ class Brain:
                     )))
             self.tags[tag.name] = tag
 
+    def _load_persons(self, configuration: Any, workspace_dir: str) -> None:
         persons_dir = os.path.join(workspace_dir, configuration.get('persons_dir', 'people'))
         for person_config in configuration.get('persons', []):
             person = Person(

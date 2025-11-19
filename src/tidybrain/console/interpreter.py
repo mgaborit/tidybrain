@@ -145,7 +145,7 @@ class Completer:
             # User is typing a command
             return self._complete_command(text, state, current_input)
 
-        elif text.startswith(TAG_PREFIX):
+        if text.startswith(TAG_PREFIX):
             # User is typing a tag related entry
             return self._complete_from_elements(
                 text[len(TAG_PREFIX):],
@@ -153,7 +153,7 @@ class Completer:
                 self.tags,
                 TAG_PREFIX)
 
-        elif text.startswith(PERSON_PREFIX):
+        if text.startswith(PERSON_PREFIX):
             # User is typing a person related entry
             return self._complete_from_elements(
                 text[len(PERSON_PREFIX):],
